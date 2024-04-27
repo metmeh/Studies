@@ -27,7 +27,7 @@ func main() {
 func hesap(x, y, z float64) float64 {
 	switch z {
 	case 1:
-		return toplam(x, y)
+		return topla(x, y)
 	case 2:
 		return cikarma(x, y)
 	case 3:
@@ -40,7 +40,7 @@ func hesap(x, y, z float64) float64 {
 	}
 }
 
-func toplam(x, y float64) float64 {
+func topla(x, y float64) float64 {
 	return x + y
 }
 
