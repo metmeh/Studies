@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not Alma Uygulaması</title>
+</head>
+<body>
+    <h1>Not Alma Uygulaması</h1>
+    <form action="/not-ekle" method="POST">
+        <label for="baslik">Başlık:</label>
+        <input type="text" id="baslik" name="baslik" required><br><br>
+        <label for="icerik">İçerik:</label><br>
+        <textarea id="icerik" name="icerik" rows="5" cols="40" required></textarea><br><br>
+        <input type="submit" value="Not Ekle">
+    </form>
+
+    <h2>Notlar</h2>
+    <ul id="notlarListesi">
+        {{range .}}
+        <li>
+            {{.Baslik}} - {{.Icerik}}
+            <form action="/not-duzenle" method="POST" style="display: inline;">
+                <input type="hidden" name="id" value="{{.ID}}">
+                <input type="submit" value="Düzenle">
+            </form>
+            <form action="/not-sil" method="POST" style="display: inline;">
+                <input type="hidden" name="id" value="{{.ID}}">
+                <input type="submit" value="Sil">
+            </form>
+        </li>
+        {{end}}
+    </ul>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function() {
+            setTimeout(() => {
+                location.reload();
+            }, 100);
+        });
+    </script>
+</body>
+</html>
