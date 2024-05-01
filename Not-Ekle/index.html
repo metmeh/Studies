@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Not Alma Uygulaması</title>
+    <title>Notlar Uygulaması</title>
 </head>
+
 <body>
-    <h1>Not Alma Uygulaması</h1>
+    <h1>Notlar Uygulaması</h1>
+
+    <h2>Not Ekle</h2>
     <form action="/not-ekle" method="POST">
-        <label for="baslik">Başlık:</label>
-        <input type="text" id="baslik" name="baslik" required><br><br>
+        <label for="baslik">Başlık:</label><br>
+        <input type="text" id="baslik" name="baslik"><br>
         <label for="icerik">İçerik:</label><br>
-        <textarea id="icerik" name="icerik" rows="5" cols="40" required></textarea><br><br>
-        <input type="submit" value="Not Ekle">
+        <textarea id="icerik" name="icerik"></textarea><br>
+        <button type="submit">Not Ekle</button>
     </form>
 
-    <h2>Notlar</h2>
-    <ul id="notlarListesi">
+    <h2>Notları Düzenle</h2>
+    <ul>
         {{range .}}
         <li>
-            {{.Baslik}} - {{.Icerik}}
-            <form action="/not-duzenle" method="POST" style="display: inline;">
+            <form action="/not-duzenle" method="POST">
                 <input type="hidden" name="id" value="{{.ID}}">
-                <input type="submit" value="Düzenle">
+                <label for="baslik{{.ID}}">Başlık:</label>
+                <input type="text" id="baslik{{.ID}}" name="baslik" value="{{.Baslik}}"><br>
+                <label for="icerik{{.ID}}">İçerik:</label>
+                <textarea id="icerik{{.ID}}" name="icerik">{{.Icerik}}</textarea><br>
+                <button type="submit">Kaydet</button>
             </form>
-            <form action="/not-sil" method="POST" style="display: inline;">
+            <form action="/not-sil" method="POST">
                 <input type="hidden" name="id" value="{{.ID}}">
-                <input type="submit" value="Sil">
+                <button type="submit">Sil</button>
             </form>
         </li>
         {{end}}
     </ul>
-
-    <script>
-        document.querySelector('form').addEventListener('submit', function() {
-            setTimeout(() => {
-                location.reload();
-            }, 100);
-        });
-    </script>
 </body>
+
 </html>

@@ -26,7 +26,7 @@ func main() {
 
 func anaSayfa(w http.ResponseWriter, r *http.Request) {
 	tmp := template.Must(template.ParseFiles("index.html"))
-	tmp.Execute(w, nil)
+	tmp.Execute(w, notlar)
 }
 
 func notEkle(w http.ResponseWriter, r *http.Request) {
@@ -35,7 +35,7 @@ func notEkle(w http.ResponseWriter, r *http.Request) {
 		icerik := r.FormValue("icerik")
 		if baslik != "" && icerik != "" {
 			idCounter++
-			not := Not{Baslik: baslik, Icerik: icerik}
+			not := Not{ID: idCounter, Baslik: baslik, Icerik: icerik}
 			notlar = append(notlar, not)
 			fmt.Printf("Not Eklendi: %+v\n", not)
 			http.Redirect(w, r, "/", http.StatusSeeOther)
@@ -45,6 +45,7 @@ func notEkle(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Error(w, "Sadece POST istekleri kabul edilir.", http.StatusMethodNotAllowed)
 	}
+	anaSayfa(w, r)
 }
 
 func notDuzenle(w http.ResponseWriter, r *http.Request) {
@@ -64,6 +65,7 @@ func notDuzenle(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Error(w, "Sadece POST istekleri kabul edilir.", http.StatusMethodNotAllowed)
 	}
+	anaSayfa(w, r)
 }
 
 func notSil(w http.ResponseWriter, r *http.Request) {
@@ -73,10 +75,12 @@ func notSil(w http.ResponseWriter, r *http.Request) {
 			if fmt.Sprintf("%d", not.ID) == idStr {
 				notlar = append(notlar[:i], notlar[i+1:]...)
 				fmt.Printf("Not Silindi: %+v\n", not)
+				break
 			}
 		}
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	} else {
 		http.Error(w, "Sadece POST istekleri kabul edilir.", http.StatusMethodNotAllowed)
 	}
+	anaSayfa(w, r)
 }
